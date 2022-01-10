@@ -37,8 +37,11 @@ RECOMMENDED
 --------------
 INSTALLATION
 --------------
-* GIT CLONE THING TODO
-
+Clone this repository to your local device. Either:
+* Run the following on CLI
+  !git clone https://github.com/007Winner/BallFind
+* Clone the https://github.com/007Winner/BallFind repository from GitHub Desktop
+* Download the project as a ZIP file on your web browser at https://github.com/007Winner/BallFind
 --------------
 EXECUTION
 --------------
