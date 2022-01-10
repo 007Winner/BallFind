@@ -45,11 +45,11 @@ Clone this repository to your local device. Either:
 --------------
 EXECUTION
 --------------
-* The program executes from the command line. cd to the project directory and run
+* The program executes from the command line. cd to the BallFind directory in this project and run
   !python main.py RollingTennisBall.mov
 * Main.py takes one argument -- a video of a tennis ball rolling across a court.
-  RollingTennisBall.mov is provided, but may be substituted with any video of a similar
-  format.
+  RollingTennisBall.mov is provided, but may be substituted with other videos of balls rolling
+  across courts.
 
 --------------
 CONFIGURATION
