@@ -19,7 +19,7 @@ is a video which will both outline the tennis ball within the court and display 
 the court in which the ball is located.
 
 --------------
-REQUIREMENT
+REQUIREMENTS
 --------------
 * This project requires the following:
 [Python] https://www.python.org/
