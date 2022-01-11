@@ -8,6 +8,7 @@ Created on Sun Jan  9 10:17:09 2022
 import cv2
 import math
 import img_mod
+import numpy as np
 
 ###GLOBALS###
 MAX = 99999999
@@ -126,7 +127,8 @@ def order_regions(regions):
             finallist[3] = entry[1]
     
     return finallist
-
+    
+    
 
 def find_regions(img):
     """
@@ -154,6 +156,7 @@ def find_regions(img):
     #cv2 findContours finds contours in different orders on each frame,
     #so we must order the contours on each frame
     regions = order_regions(regions)
+    regions = remove_concavity(regions)
     return regions
     
 
@@ -202,6 +205,28 @@ def calc_nearest_region_midpt(pt, contours):
     
     return -1
 
+def remove_concavity(contours):
+    """
+
+    Parameters
+    ----------
+    contours : LIST, list of contours.
+
+    Returns
+    -------
+    convex_hull_contours : List, list of the convex hulls of the contours.
+    These contours are the approximate shapes of @param contours, which we find
+    by removing concave defects.
+
+    """
+    convex_hull_contours = []
+    for cnt in contours:
+        convexHull = cv2.convexHull(cnt)
+        convex_hull_contours.append(convexHull)
+        
+    return convex_hull_contours
+            
+
 def find_ball_region(ball, regions):
     """
     
@@ -218,24 +243,12 @@ def find_ball_region(ball, regions):
     """
     ball_ctr = cnt_center(ball)
 
-    #the first method for calculating the ball's region with openCV. Works
-    #whenever a ball is not crossing over a line.
-    count = 0
     for index in range(len(regions)):
         isinregion = cv2.pointPolygonTest(regions[index], ball_ctr, False)
         if isinregion == 1:
             return index + 1
-        else:
-            count += 1
     
-    #geometrically, this method of finding the ball's region always works for
-    #the given example. However, if the camera were to pan, trig would need
-    #to be used to weigh distances. The above method is a bit more robust, but
-    #it cannot be used when the ball crosses over region lines, as the ball's
-    #edges become a part of the region contour.
-    if count == len(regions):
-        return calc_nearest_region_midpt(ball_ctr, regions)
-    
+    #return if ball's center is over a line
     return -1
     
     
