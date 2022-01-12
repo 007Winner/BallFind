@@ -14,7 +14,7 @@ GREEN = (0,255,0)
 RED = (0,0,255)
 BLUE = (255,0,0)
 
-OBJECT_DETECTOR = cv2.createBackgroundSubtractorMOG2(history=3, varThreshold=700, detectShadows = False)
+OBJECT_DETECTOR = cv2.createBackgroundSubtractorMOG2(history=3, varThreshold=700, detectShadows = False) 
 #################
 
     
@@ -131,40 +131,3 @@ def write_text(img, text, org = (200,200), fontFace = cv2.FONT_HERSHEY_DUPLEX, f
                 )
 
 
-def find_ball_region(ball, regions):
-    """
-    
-    Parameters
-    ----------
-    ball : CV2 CONTOUR, the contour of the ball.
-    regions : LIST, list of contours -- one contour for each court region.
-
-    Returns
-    -------
-    INT, returns the index of the region in which @param ball's 
-    center is located.
-
-    """
-    ball_ctr = shapes_finder.cnt_center(ball)
-
-    #the first method for calculating the ball's region with openCV. Works
-    #whenever a ball is not crossing over a line.
-    count = 0
-    for index in range(len(regions)):
-        isinregion = cv2.pointPolygonTest(regions[index], ball_ctr, False)
-        if isinregion == 1:
-            return index + 1
-        else:
-            count += 1
-    
-    #geometrically, this method of finding the ball's region always works for
-    #the given example. However, if the camera were to pan, trig would need
-    #to be used to weigh distances. The above method is a bit more robust, but
-    #it cannot be used when the ball crosses over region lines, as the ball's
-    #edges become a part of the region contour.
-    if count == len(regions):
-        return shapes_finder.calc_nearest_region_midpt(ball_ctr, regions)
-    
-    return -1
-    
-    
